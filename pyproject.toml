@@ -7,7 +7,16 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+pytelegrambotapi = "^4.8.0"
+black = "^22.10.0"
+yapf = "^0.32.0"
+pylint = "^2.15.7"
 
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.0"
+flake8 = "^6.0.0"
+bandit = "^1.7.4"
 
 [build-system]
 requires = ["poetry-core"]

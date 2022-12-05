@@ -11,6 +11,8 @@ pytelegrambotapi = "^4.8.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
+
+[tool.poetry.group.ci.dependencies]
 pylint = "^2.15.7"
 
 [build-system]

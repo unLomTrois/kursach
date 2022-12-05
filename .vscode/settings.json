@@ -4,5 +4,5 @@
     "python.linting.enabled": true,
     "python.linting.banditEnabled": false,
     "python.linting.pylintEnabled": false,
-    "python.linting.flake8Args": ["--ignore=E501"]
+    "python.linting.flake8Args": ["--ignore=E501,W503"]
 }

@@ -1,3 +1,3 @@
-from bot import bot
+from bot import tb
 
-bot.polling()
+tb.polling()

@@ -1,3 +1,5 @@
+[![Pylint](https://github.com/unLomTrois/kursach/actions/workflows/pylint.yml/badge.svg)](https://github.com/unLomTrois/kursach/actions/workflows/pylint.yml)
+
 # Как запускать:
 
 ```sh

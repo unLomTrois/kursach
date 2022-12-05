@@ -1,11 +1,9 @@
-"""_summary_
-"""
+"""Модуль калькулятора расхода газа"""
 
 
-class EnergyCalculator:
+class GasCalculator:
     """
-    Общий класс для калькуляторов,
-    возможно использовать не только для калькулятора природного газа
+    Класс калькулятора расхода газа
     """
 
     # цена топлива
@@ -18,12 +16,6 @@ class EnergyCalculator:
     heating_value: float
     v_max: float  # м3/час - максимальный расход газа
     v_avg: float  # м3/час - средний расход газа
-
-
-class GasCalculator(EnergyCalculator):
-    """
-    Класс для вычисления
-    """
 
     def __init__(
         self,
@@ -81,7 +73,7 @@ class GasCalculator(EnergyCalculator):
         print("цена в день:", price_per_month / 2, "-", price_per_month, "руб")
         return price_per_month
 
-    def per_year(self):
+    def price_per_year(self):
         """вычисляет расход в год"""
         price_per_year = round(self.v_per_year() * self.price, 2)
         print("цена в год:", price_per_year / 2, "-", price_per_year, "руб")

@@ -1,4 +1,7 @@
+"""Дополнительные функции"""
+
 def is_number(value: str) -> bool:
+    """проверяет строку value на то, что оно может быть приведено к типу float"""
     if value.isdigit():
         return True
     if value.count(".") == 0:

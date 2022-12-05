@@ -2,9 +2,6 @@
 """
 
 
-from typing import Optional
-
-
 class EnergyCalculator:
     """
     Общий класс для калькуляторов,
@@ -28,27 +25,22 @@ class GasCalculator(EnergyCalculator):
     Класс для вычисления
     """
 
-    # табличное значение согласно справочнику по физике Х.Кухлинга
-    heating_value = 35.9
-    # для плит КПД составляет 30-60%, поэтому среднее 45%
-    efficiency = 0.45
-
     def __init__(
         self,
-        power: Optional[float] = None,
-        price: Optional[float] = None,
-        efficiency: Optional[float] = None,
+        power: float,
+        price: float,
+        # для плит КПД составляет 30-60%, поэтому среднее 45%
+        efficiency: float = 0.45,
+        # табличное значение согласно справочнику по физике Х.Кухлинга
+        heating_value: float = 35.9,  # (МДж/м3)
     ):
         """конструктор класса"""
-        # если power или price не указаны, то спросить пользователя о них
-        self.power = power if power is not None else self.ask_for_power()
-        self.price = (
-            price
-            if price is not None
-            else float(input("введите цену на топливо (руб/м3)"))
-        )
-        if efficiency is not None:
-            self.efficiency = efficiency
+
+        self.power = power
+        self.price = price
+        self.efficiency = efficiency
+        self.heating_value = heating_value
+
         # вычислить максимальный расход газа
         self.calc_max_v()
 
@@ -56,16 +48,6 @@ class GasCalculator(EnergyCalculator):
         """вычисляет максимальный расход"""
         self.v_max = self.power / (self.heating_value * 0.278 * self.efficiency)
         self.v_avg = self.v_max / 2
-
-    def ask_for_power(self):
-        """функция просит пользователя указать мощность устройства"""
-
-        burner_count = int(input("введите количество конфорок"))
-        power = 0
-        for n in range(burner_count):
-            power += float(input(f"введите мощность {n+1}-й конфорки (кВт)"))
-        print("номинальная мощность плиты:", power, "(кВт)")
-        return power
 
     def price_per_hour(self):
         """вычисляет стоимость за часовой расход топлива"""

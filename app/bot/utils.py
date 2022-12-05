@@ -1,13 +1,3 @@
-import telebot
-from telebot.types import CallbackQuery
-
-
-def clear_markup(bot: telebot.TeleBot, call: CallbackQuery):
-    bot.edit_message_reply_markup(
-        call.message.chat.id, call.message.id, reply_markup=None
-    )
-
-
 def is_number(value: str) -> bool:
     if value.isdigit():
         return True

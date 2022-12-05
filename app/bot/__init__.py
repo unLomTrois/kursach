@@ -1,8 +1,7 @@
 import telebot
 from telebot import types
 
-from app.bot.markup import start_markup, what_is_power_markup
-from app.bot.utils import calc_methane_max_v, clear_markup, is_number
+from app.bot.utils import calc_methane_max_v, is_number
 
 
 token: str = "5816605116:AAGlXFDKUWBUYt56_yJIA4jnJcCu2_sCCbY"
@@ -14,39 +13,15 @@ tb = telebot.TeleBot(token)
 def start(message: types.Message):
     tb.send_message(
         message.chat.id,
-        "Привет! Это калькулятор для расчёта потребления газа! Начнём?",
-        reply_markup=start_markup(),
+        "Привет! Это калькулятор для расчёта потребления газа!",
     )
-
-
-@tb.callback_query_handler(func=lambda call: call.data == "cb_start_button")
-def callback_inline_start(call: types.CallbackQuery):
-    tb.answer_callback_query(call.id, "Хорошо!")
-    clear_markup(tb, call)
     sent = tb.send_message(
-        call.message.chat.id,
+        message.chat.id,
         "Для начала укажите мощность газовой плиты (в кВт, например: 2.5)",
-        reply_markup=what_is_power_markup(),
     )
     tb.register_next_step_handler(
         sent,
         get_power,
-    )
-
-
-@tb.callback_query_handler(func=lambda call: call.data == "cb_what_is_power")
-def answer_what_is_power(call: types.CallbackQuery):
-    tb.answer_callback_query(call.id)
-    clear_markup(tb, call)
-    tb.send_message(
-        call.message.chat.id,
-        "Мощность плиты состоит из суммы мощностей всех горелок (конфорок)."
-        + "Обычно это указывают в паспорте к плите, и его выдадут по требованию."
-        + "Чтобы не решать проблему чрезмерного потребления газа, следует избегать продукции без паспорта.",
-    )
-    tb.send_message(
-        call.message.chat.id,
-        "Чтобы найти мощность плиты, найдите модель в интернете",
     )
 
 

@@ -10,8 +10,8 @@ python = "^3.10"
 pytelegrambotapi = "^4.8.0"
 
 [tool.poetry.group.dev.dependencies]
-flake8 = "^6.0.0"
 black = "^22.10.0"
+pylint = "^2.15.7"
 
 [build-system]
 requires = ["poetry-core"]

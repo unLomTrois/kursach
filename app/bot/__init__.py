@@ -27,11 +27,11 @@ def start(message: types.Message):
     # обработать следующее сообщение в функции get_power
     bot.register_next_step_handler(
         message,
-        get_power,
+        ask_for_power,
     )
 
 
-def get_power(message: types.Message):
+def ask_for_power(message: types.Message):
     """Бот спрашивает пользователя, какая мощность у его плиты"""
 
     # если пользователь отправил не текст, а что-то другое, вроде картинки
@@ -40,7 +40,7 @@ def get_power(message: types.Message):
         sent = bot.send_message(
             message.chat.id, "укажите мощность газовой плиты (в кВт, например: 2.5)"
         )
-        bot.register_next_step_handler(sent, get_power)
+        bot.register_next_step_handler(sent, ask_for_power)
         return
 
     power = message.text
@@ -48,7 +48,7 @@ def get_power(message: types.Message):
         sent = bot.send_message(
             message.chat.id, "укажите мощность газовой плиты (в кВт, например: 2.5)"
         )
-        bot.register_next_step_handler(sent, get_power)
+        bot.register_next_step_handler(sent, ask_for_power)
         return
 
     power = float(power)
@@ -58,3 +58,6 @@ def get_power(message: types.Message):
     max_gas_usage_per_hour = round(calc.v_max, 2)
 
     bot.reply_to(message, f"Максимальный расход: {max_gas_usage_per_hour} куб.м/час")
+    bot.send_message(
+        message.chat.id, f"Стоимость топлива в год: {calc.price_per_year()} куб.м/час"
+    )

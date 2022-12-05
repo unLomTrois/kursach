@@ -1,8 +1,8 @@
 import telebot
 from telebot import types
 
-from bot.markup import start_markup, what_is_power_markup
-from bot.utils import calc_methane_max_v, clear_markup, is_number
+from app.bot.markup import start_markup, what_is_power_markup
+from app.bot.utils import calc_methane_max_v, clear_markup, is_number
 
 
 token: str = "5816605116:AAGlXFDKUWBUYt56_yJIA4jnJcCu2_sCCbY"

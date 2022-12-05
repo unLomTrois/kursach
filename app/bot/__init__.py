@@ -57,7 +57,50 @@ def ask_for_power(message: types.Message):
 
     max_gas_usage_per_hour = round(calc.v_max, 2)
 
-    bot.reply_to(message, f"Максимальный расход: {max_gas_usage_per_hour} куб.м/час")
-    bot.send_message(
-        message.chat.id, f"Стоимость топлива в год: {calc.price_per_year()} куб.м/час"
+    bot.reply_to(
+        message,
+        f"Средний расход: {max_gas_usage_per_hour/2} куб.м/час\n"
+        + f"Максимальный расход: {max_gas_usage_per_hour} куб.м/час\n\n"
+        + "(если номинальный расход счётчика сильно меньше максимального расхода,"
+        + "стоит задуматься о смене счётчика)",
+    )
+    sent = bot.send_message(
+        message.chat.id,
+        "Теперь для расчёта затрат, укажите цену за 1 куб.м газа, например, 6.47",
+    )
+    bot.register_next_step_handler(sent, ask_for_price, power)
+
+
+def ask_for_price(message: types.Message, power: float):
+    """Бот спрашивает пользователя, какая у него цена за газ"""
+
+    # если пользователь отправил не текст, а что-то другое, вроде картинки
+    if message.text is None:
+        # то напомнить ему, что нужно сделать
+        sent = bot.send_message(
+            message.chat.id,
+            "Чтобы провести расчёт затрат, введите цену за куб.м газа, например, 6.47",
+        )
+        bot.register_next_step_handler(sent, ask_for_power)
+        return
+
+    price = message.text
+
+    if not is_number(price):
+        sent = bot.send_message(
+            message.chat.id,
+            "Чтобы провести расчёт затрат, введите цену за куб.м газа, например, 6.47",
+        )
+        bot.register_next_step_handler(sent, ask_for_power)
+        return
+
+    price = float(price)
+
+    calc = GasCalculator(power=power, price=price)
+
+    bot.reply_to(
+        message,
+        f"Стоимость топлива в день: {calc.price_per_day() / 2} руб.\n"
+        + f"Стоимость топлива в месяц: {calc.price_per_month() / 2} руб.\n"
+        + f"Стоимость топлива в год: {calc.price_per_year() / 2} руб.",
     )

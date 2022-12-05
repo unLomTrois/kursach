@@ -49,9 +49,8 @@ class GasCalculator:
 
     def v_per_day(self):
         """вычисляет максимальный расход топлива в день"""
-        return (
-            self.v_max * 8
-        )  # 8, потому что редко когда печь используется более 8 часов
+        # 8, потому что редко когда печь используется более 8 часов
+        return self.v_max * 8
 
     def v_per_month(self):
         """вычисляет максимальный расход топлива в месяц"""
@@ -59,22 +58,16 @@ class GasCalculator:
 
     def v_per_year(self):
         """вычисляет максимальный расход топлива в год"""
-        return self.v_per_month() * 12
+        return self.v_per_day() * 365
 
     def price_per_day(self):
-        """вычисляет стоимость топлива в день"""
-        price_per_day = round(self.v_per_day() * self.price, 2)
-        print("цена в день:", price_per_day / 2, "-", price_per_day, "руб")
-        return price_per_day
+        """вычисляет максимальную стоимость топлива в день"""
+        return round(self.v_per_day() * self.price, 2)
 
     def price_per_month(self):
-        """вычисляет расход в месяц"""
-        price_per_month = round(self.v_per_month() * self.price, 2)
-        print("цена в день:", price_per_month / 2, "-", price_per_month, "руб")
-        return price_per_month
+        """вычисляет максимальную стоимость топлива в месяц"""
+        return round(self.v_per_month() * self.price, 2)
 
     def price_per_year(self):
-        """вычисляет расход в год"""
-        price_per_year = round(self.v_per_year() * self.price, 2)
-        print("цена в год:", price_per_year / 2, "-", price_per_year, "руб")
-        return price_per_year
+        """вычисляет максимальную стоимость топлива в год"""
+        return round(self.v_per_year() * self.price, 2)

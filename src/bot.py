@@ -3,8 +3,8 @@
 import telebot
 from telebot import types
 
-from app.bot.utils import is_number
-from app.calc import GasCalculator
+from utils import is_number
+from calc import GasCalculator
 
 
 token: str = "5816605116:AAGlXFDKUWBUYt56_yJIA4jnJcCu2_sCCbY"

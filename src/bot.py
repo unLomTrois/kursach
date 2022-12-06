@@ -3,15 +3,17 @@
 import telebot
 from telebot import types
 
-from utils import is_number
 from calc import GasCalculator
+from utils import is_number
 
-
+# Токен, который получаем из телеграм-бота BotFather
 token: str = "5816605116:AAGlXFDKUWBUYt56_yJIA4jnJcCu2_sCCbY"
 
+# Экземпляр бота, через этот объект отправляются сообщения
 bot = telebot.TeleBot(token)
 
-
+# @bot.message_handler делает так, что функция start обрабатывает сообщение пользователя
+# start вызывается только на команду /start
 @bot.message_handler(commands=["start"])
 def start(message: types.Message):
     """Входная точка для работы с ботом"""

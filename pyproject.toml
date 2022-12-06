@@ -6,7 +6,7 @@ authors = ["unlomtrois <vadim.kuz02@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.8"
 pytelegrambotapi = "^4.8.0"
 
 [tool.poetry.group.dev.dependencies]

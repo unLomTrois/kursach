@@ -1,3 +1,8 @@
+# Скачаем проект:
+```sh
+git clone https://github.com/unLomTrois/kursach.git
+```
+
 # Установим зависимости
 Для работы с ботом
 ```sh

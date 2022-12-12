@@ -22,11 +22,11 @@ def start(message: types.Message):
         message.chat.id,
         "Привет! Это калькулятор для расчёта потребления газа!",
     )
-    calc(message)
+    start_calc(message)
 
 
 @bot.message_handler(commands=["calc"])
-def calc(message: types.Message):
+def start_calc(message: types.Message):
     """Просит пользователя ввести мощность"""
     bot.send_message(
         message.chat.id,

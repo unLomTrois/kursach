@@ -22,6 +22,12 @@ def start(message: types.Message):
         message.chat.id,
         "Привет! Это калькулятор для расчёта потребления газа!",
     )
+    calc(message)
+
+
+@bot.message_handler(commands=["calc"])
+def calc(message: types.Message):
+    """Просит пользователя ввести мощность"""
     bot.send_message(
         message.chat.id,
         "Для начала укажите мощность газовой плиты (в кВт, например: 2.5)",
@@ -106,3 +112,10 @@ def ask_for_price(message: types.Message, power: float):
         + f"Стоимость топлива в месяц: {calc.price_per_month() / 2} руб.\n"
         + f"Стоимость топлива в год: {calc.price_per_year() / 2} руб.",
     )
+    bot.send_message(message.chat.id, "Для нового расчёта используйте команду /calc")
+
+
+@bot.message_handler(func=lambda message: True)
+def default_command(message: types.Message):
+    """Дефолтный обработчик, который обрабатывает сообщения после всех вычислений"""
+    bot.send_message(message.chat.id, "Для расчёта используйте команду /calc")

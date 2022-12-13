@@ -61,10 +61,10 @@ def ask_for_power(message: types.Message):
 
     calc = GasCalculator(power=power, price=0)
 
-    max_gas_usage = round(calc.max_gas_usage, 2)
+    max_gas_usage = round(calc.max_gas_usage(), 2)
 
-    bot.reply_to(
-        message,
+    bot.send_message(
+        message.chat.id,
         f"Средний расход: {max_gas_usage/2} куб.м/час\n"
         + f"Максимальный расход: {max_gas_usage} куб.м/час\n\n"
         + "(если номинальный расход счётчика сильно меньше максимального расхода,"
@@ -102,8 +102,8 @@ def ask_for_price(message: types.Message, power: float):
 
     calc = GasCalculator(power=power, price=price)
 
-    bot.reply_to(
-        message,
+    bot.send_message(
+        message.chat.id,
         f"Стоимость топлива в день: {calc.price_per_day() / 2} руб.\n"
         + f"Стоимость топлива в месяц: {calc.price_per_month() / 2} руб.\n"
         + f"Стоимость топлива в год: {calc.price_per_year() / 2} руб.",

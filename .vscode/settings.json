@@ -4,5 +4,12 @@
     "python.linting.enabled": true,
     "python.linting.banditEnabled": false,
     "python.linting.pylintEnabled": true,
-    "python.linting.flake8Args": ["--ignore=E501,W503"]
+    "python.linting.flake8Args": [
+        "--ignore=E501,W503"
+    ],
+    "python.testing.pytestArgs": [
+        "src"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }

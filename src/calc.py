@@ -14,8 +14,7 @@ class GasCalculator:
     power: float
     # удельная теплота сгорания (МДж/м3)
     heating_value: float
-    v_max: float  # м3/час - максимальный расход газа
-    v_avg: float  # м3/час - средний расход газа
+    max_gas_usage: float  # м3/час - максимальный расход газа
 
     def __init__(
         self,
@@ -34,23 +33,22 @@ class GasCalculator:
         self.heating_value = heating_value
 
         # вычислить максимальный расход газа
-        self.calc_max_v()
+        self.calc_gas_usage()
 
-    def calc_max_v(self):
+    def calc_gas_usage(self):
         """вычисляет максимальный расход"""
-        self.v_max = self.power / (self.heating_value * 0.278 * self.efficiency)
-        self.v_avg = self.v_max / 2
+        self.max_gas_usage = self.power / (self.heating_value * 0.278 * self.efficiency)
 
     def price_per_hour(self):
         """вычисляет стоимость за часовой расход топлива"""
-        price_per_hour = round(self.v_max * self.price, 2)
+        price_per_hour = round(self.max_gas_usage * self.price, 2)
         print("цена в час:", price_per_hour, "руб")
         return price_per_hour
 
     def v_per_day(self):
         """вычисляет максимальный расход топлива в день"""
         # 8, потому что редко когда печь используется более 8 часов
-        return self.v_max * 8
+        return self.max_gas_usage * 8
 
     def v_per_month(self):
         """вычисляет максимальный расход топлива в месяц"""

@@ -44,18 +44,18 @@ def ask_for_power(message: types.Message):
     # если пользователь отправил не текст, а что-то другое, вроде картинки
     if message.text is None:
         # то напомнить ему, что нужно сделать
-        sent = bot.send_message(
+        bot.send_message(
             message.chat.id, "укажите мощность газовой плиты (в кВт, например: 2.5)"
         )
-        bot.register_next_step_handler(sent, ask_for_power)
+        bot.register_next_step_handler(message, ask_for_power)
         return
 
     power = message.text
     if not is_number(power):
-        sent = bot.send_message(
+        bot.send_message(
             message.chat.id, "укажите мощность газовой плиты (в кВт, например: 2.5)"
         )
-        bot.register_next_step_handler(sent, ask_for_power)
+        bot.register_next_step_handler(message, ask_for_power)
         return
 
     power = float(power)
@@ -71,11 +71,11 @@ def ask_for_power(message: types.Message):
         + "(если номинальный расход счётчика сильно меньше максимального расхода,"
         + "стоит задуматься о смене счётчика)",
     )
-    sent = bot.send_message(
+    bot.send_message(
         message.chat.id,
         "Теперь для расчёта затрат, укажите цену за 1 куб.м газа, например, 6.47",
     )
-    bot.register_next_step_handler(sent, ask_for_price, power)
+    bot.register_next_step_handler(message, ask_for_price, power)
 
 
 def ask_for_price(message: types.Message, power: float):
@@ -94,11 +94,11 @@ def ask_for_price(message: types.Message, power: float):
     price = message.text
 
     if not is_number(price):
-        sent = bot.send_message(
+        bot.send_message(
             message.chat.id,
             "Чтобы провести расчёт затрат, введите цену за куб.м газа, например, 6.47",
         )
-        bot.register_next_step_handler(sent, ask_for_power)
+        bot.register_next_step_handler(message, ask_for_power)
         return
 
     price = float(price)

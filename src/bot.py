@@ -1,7 +1,6 @@
 """Модуль для работы с ботом"""
 
-import telebot
-from telebot import types
+from telebot import TeleBot, types
 
 from calc import GasCalculator
 from utils import is_number
@@ -10,7 +9,7 @@ from utils import is_number
 token: str = "5816605116:AAGlXFDKUWBUYt56_yJIA4jnJcCu2_sCCbY"
 
 # Экземпляр бота, через этот объект отправляются сообщения
-bot = telebot.TeleBot(token)
+bot = TeleBot(token)
 
 # @bot.message_handler делает так, что функция start обрабатывает сообщение пользователя
 # start вызывается только на команду /start

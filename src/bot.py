@@ -122,3 +122,15 @@ def default_handler(message):
 def default_command(message: types.Message):
     """Дефолтный обработчик, который обрабатывает сообщения после всех вычислений"""
     bot.send_message(message.chat.id, "Для расчёта используйте команду /calc")
+
+
+def eto_primer_vopros(message: types.Message):
+    if message.text == "/primer":
+        return True
+    else:
+        return False
+
+@bot.message_handler(func=eto_primer_vopros)
+def primer(message: types.Message):
+    bot.send_message(message.chat.id, "пример")
+

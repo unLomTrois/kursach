@@ -84,11 +84,11 @@ def ask_for_price(message: types.Message, power: float):
     # если пользователь отправил не текст, а что-то другое, вроде картинки
     if message.text is None:
         # то напомнить ему, что нужно сделать
-        sent = bot.send_message(
+        bot.send_message(
             message.chat.id,
             "Чтобы провести расчёт затрат, введите цену за куб.м газа, например, 6.47",
         )
-        bot.register_next_step_handler(sent, ask_for_power)
+        bot.register_next_step_handler(message, ask_for_power)
         return
 
     price = message.text
@@ -114,7 +114,11 @@ def ask_for_price(message: types.Message, power: float):
     bot.send_message(message.chat.id, "Для нового расчёта используйте команду /calc")
 
 
-@bot.message_handler(func=lambda message: True)
+def default_handler(message):
+    return True
+
+# default_handler - то же самое, что и lambda message: True
+@bot.message_handler(func=default_handler)
 def default_command(message: types.Message):
     """Дефолтный обработчик, который обрабатывает сообщения после всех вычислений"""
     bot.send_message(message.chat.id, "Для расчёта используйте команду /calc")

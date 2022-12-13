@@ -10,7 +10,10 @@ def test_token():
     assert token != ""
 
 
-def test_bot():
-    """Тестирует, что токен указан верно"""
-    testbot = TeleBot(token)
-    assert testbot.get_me() is not None
+def test_bot_get_me():
+    """Тестирует, что токен указан верно
+    get_me() пытается подключиться к телеграму, 
+    но если токен не верный, то возвращается ошибка
+    """
+    test_bot = TeleBot(token)
+    assert test_bot.get_me() is not None

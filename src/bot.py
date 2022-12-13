@@ -16,12 +16,10 @@ bot = TeleBot(token)
 @bot.message_handler(commands=["start"])
 def start(message: types.Message):
     """Входная точка для работы с ботом"""
-
     bot.send_message(
         message.chat.id,
         "Привет! Это калькулятор для расчёта потребления газа!",
     )
-    start_calc(message)
 
 
 @bot.message_handler(commands=["calc"])
@@ -41,36 +39,24 @@ def start_calc(message: types.Message):
 def ask_for_power(message: types.Message):
     """Бот спрашивает пользователя, какая мощность у его плиты"""
 
-    # если пользователь отправил не текст, а что-то другое, вроде картинки
+    # если пользователь отправил не текст, а что-то другое, например, картинку
     if message.text is None:
         # то напомнить ему, что нужно сделать
         bot.send_message(
             message.chat.id, "укажите мощность газовой плиты (в кВт, например: 2.5)"
         )
-        bot.register_next_step_handler(message, ask_for_power)
+        bot.register_next_step_handler_by_chat_id(message.chat.id, ask_for_power)
         return
 
-    power = message.text
-    if not is_number(power):
+    if not is_number(message.text):
         bot.send_message(
             message.chat.id, "укажите мощность газовой плиты (в кВт, например: 2.5)"
         )
-        bot.register_next_step_handler(message, ask_for_power)
+        bot.register_next_step_handler_by_chat_id(message.chat.id, ask_for_power)
         return
 
-    power = float(power)
+    power = float(message.text)
 
-    calc = GasCalculator(power=power, price=0)
-
-    max_gas_usage_per_hour = round(calc.v_max, 2)
-
-    bot.reply_to(
-        message,
-        f"Средний расход: {max_gas_usage_per_hour/2} куб.м/час\n"
-        + f"Максимальный расход: {max_gas_usage_per_hour} куб.м/час\n\n"
-        + "(если номинальный расход счётчика сильно меньше максимального расхода,"
-        + "стоит задуматься о смене счётчика)",
-    )
     bot.send_message(
         message.chat.id,
         "Теперь для расчёта затрат, укажите цену за 1 куб.м газа, например, 6.47",
@@ -91,9 +77,7 @@ def ask_for_price(message: types.Message, power: float):
         bot.register_next_step_handler(message, ask_for_power)
         return
 
-    price = message.text
-
-    if not is_number(price):
+    if not is_number(message.text):
         bot.send_message(
             message.chat.id,
             "Чтобы провести расчёт затрат, введите цену за куб.м газа, например, 6.47",
@@ -101,24 +85,34 @@ def ask_for_price(message: types.Message, power: float):
         bot.register_next_step_handler(message, ask_for_power)
         return
 
-    price = float(price)
+    price = float(message.text)
 
+    answer(message, power, price)
+
+
+def answer(message: types.Message, power: float, price: float):
+    """Возвращает пользователю результат вычислений"""
     calc = GasCalculator(power=power, price=price)
+    max_gas_usage = round(calc.max_gas_usage, 2)
 
     bot.reply_to(
         message,
-        f"Стоимость топлива в день: {calc.price_per_day() / 2} руб.\n"
-        + f"Стоимость топлива в месяц: {calc.price_per_month() / 2} руб.\n"
-        + f"Стоимость топлива в год: {calc.price_per_year() / 2} руб.",
+        f"Средний расход газа: {max_gas_usage/2} куб.м/час\n"
+        + f"Максимальный расход газа: {max_gas_usage} куб.м/час\n\n"
+        + f"Стоимость газа в день: {calc.price_per_day() / 2} руб.\n"
+        + f"Стоимость газа в месяц: {calc.price_per_month() / 2} руб.\n"
+        + f"Стоимость газа в год: {calc.price_per_year() / 2} руб.",
     )
     bot.send_message(message.chat.id, "Для нового расчёта используйте команду /calc")
 
 
-def default_handler(message: types.Message):
+def default_handler(_: types.Message):
+    """Активирующая функция для стандартного обработчика, всегда вернёт True"""
     return True
+
 
 # default_handler - то же самое, что и lambda message: True
 @bot.message_handler(func=default_handler)
 def default_command(message: types.Message):
-    """Дефолтный обработчик, который обрабатывает сообщения после всех вычислений"""
+    """Стандартный обработчик, который обрабатывает сообщения после всех вычислений"""
     bot.send_message(message.chat.id, "Для расчёта используйте команду /calc")

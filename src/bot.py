@@ -31,7 +31,7 @@ def start_calc(message: types.Message):
         message.chat.id,
         "Для начала укажите мощность газовой плиты (в кВт, например: 2.5)",
     )
-    # обработать следующее сообщение в функции get_power
+    # обработать следующее сообщение в функции ask_for_power
     bot.register_next_step_handler(
         message,
         ask_for_power,

@@ -61,12 +61,12 @@ def ask_for_power(message: types.Message):
 
     calc = GasCalculator(power=power, price=0)
 
-    max_gas_usage_per_hour = round(calc.max_gas_usage, 2)
+    max_gas_usage = round(calc.max_gas_usage, 2)
 
     bot.reply_to(
         message,
-        f"Средний расход: {max_gas_usage_per_hour/2} куб.м/час\n"
-        + f"Максимальный расход: {max_gas_usage_per_hour} куб.м/час\n\n"
+        f"Средний расход: {max_gas_usage/2} куб.м/час\n"
+        + f"Максимальный расход: {max_gas_usage} куб.м/час\n\n"
         + "(если номинальный расход счётчика сильно меньше максимального расхода,"
         + "стоит задуматься о смене счётчика)",
     )

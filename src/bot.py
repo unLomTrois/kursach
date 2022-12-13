@@ -114,7 +114,7 @@ def ask_for_price(message: types.Message, power: float):
     bot.send_message(message.chat.id, "Для нового расчёта используйте команду /calc")
 
 
-def default_handler(message):
+def default_handler(message: types.Message):
     return True
 
 # default_handler - то же самое, что и lambda message: True
@@ -122,17 +122,3 @@ def default_handler(message):
 def default_command(message: types.Message):
     """Дефолтный обработчик, который обрабатывает сообщения после всех вычислений"""
     bot.send_message(message.chat.id, "Для расчёта используйте команду /calc")
-
-
-def eto_comanda_primer_vopros(message: types.Message):
-    """Eto comanda primer, vopros????"""
-    if message.text == "/primer":
-        return True
-    else:
-        return False
-
-# функция primer вызовится только если пользователь прислал "/primer"
-@bot.message_handler(func=eto_comanda_primer_vopros)
-def primer(message: types.Message):
-    bot.send_message(message.chat.id, "пример")
-
